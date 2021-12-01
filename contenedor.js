@@ -12,10 +12,10 @@ class Contenedor{
   async save(product){
     try{
       let arregloGlobal = await this.getAll();
-      let currentId =  arregloGlobal.length;
+      let currentId =  arregloGlobal.length + 1;
       product.id = currentId;
       arregloGlobal.push(product);
-      let producto = JSON.stringify(arregloGlobal);
+      let producto = JSON.stringify(arregloGlobal,null,2);
       await fs.promises.writeFile(`${this.archivo}`,`${producto}`);
       this.contadorId+=1;
       return currentId;

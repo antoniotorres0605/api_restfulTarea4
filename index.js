@@ -32,7 +32,7 @@ id.get("/:id",(req,res,next)=>{
   console.log(id)
   const data = c1.getById(id).then(data=>{
     console.log(data);
-    res.send(data);
+    res.json(data);
   }).catch(error=>{
     res.send(error);
   })
@@ -43,6 +43,12 @@ app.use(express.json());
 
 router.post("/",(req,res,next)=>{
   console.log(req.body.producto);
+  c1.save(req.body.producto).then(data=>{
+    console.log(data);
+    res.json(data);
+  }).catch(error=>{
+    res.send(error);
+  })
 });
 
 // MIDDLEWARE
