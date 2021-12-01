@@ -1,4 +1,6 @@
 let express = require("express");
+let path = require("path");
+
 let app = express();
 
 let {Router} = express;
@@ -7,20 +9,22 @@ let router = new Router();
 let id = new Router();
 
 let PORT = 3000;
-let path = require("path");
 
 
 
-let Contenedor = require("./contenedor")
-let c1 = new Contenedor('./productos.txt')
+
+let Contenedor = require("./contenedor");
+let c1 = new Contenedor('./productos.txt');
 
 router.get("/",(req,res,next)=>{
-  const data = c1.getAll().then(data=>{
+  c1.getAll().then(data=>{
     res.send(data);
   }).catch(error=>{
     res.send(error);
   })
 });
+
+
 
 id.get("/:id",(req,res,next)=>{
   console.log("Entre al get")
@@ -34,6 +38,9 @@ id.get("/:id",(req,res,next)=>{
   })
 });
 
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+
 router.post("/",(req,res,next)=>{
   console.log(req.body.producto);
 });
@@ -43,8 +50,7 @@ app.use("/api/productos",router);
 app.use("/api/productos",id);
 app.use("/api",express.static(path.join(__dirname,"public","html")));
 
-app.use(express.urlencoded({extended: true}));
-app.use(express.json());
+
 
 app.get("/", (req,res,next) => {
   res.send("<h1>Pagina de Inicio<br></h1>");

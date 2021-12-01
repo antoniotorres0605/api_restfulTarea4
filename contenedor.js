@@ -8,6 +8,24 @@ class Contenedor{
   constructor(archivo){
     this.archivo = archivo;
   }
+  // Método que guarda nuevo producto
+  async save(product){
+    try{
+      let arregloGlobal = await this.getAll();
+      let currentId =  arregloGlobal.length;
+      product.id = currentId;
+      arregloGlobal.push(product);
+      let producto = JSON.stringify(arregloGlobal);
+      await fs.promises.writeFile(`${this.archivo}`,`${producto}`);
+      this.contadorId+=1;
+      return currentId;
+    }
+    catch(error){
+     // console.log(error)
+    }
+    
+  }
+
 
   // Función que permite guardar nuevos objetos
 
